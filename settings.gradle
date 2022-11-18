@@ -1,3 +1,4 @@
 rootProject.name = 'punishments-trial'
 include 'core'
+include 'bukkit'
 

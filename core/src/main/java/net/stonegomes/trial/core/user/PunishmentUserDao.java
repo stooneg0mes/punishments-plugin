@@ -7,8 +7,8 @@ public interface PunishmentUserDao {
 
     void replaceUser(PunishmentUser punishmentUser);
 
-    PunishmentUser find(UUID uuid);
+    PunishmentUser findUser(UUID uuid);
 
-    Collection<PunishmentUser> find();
+    Collection<PunishmentUser> findAll();
 
 }

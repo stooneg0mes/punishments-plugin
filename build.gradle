@@ -12,26 +12,10 @@ subprojects {
 
     repositories {
         mavenCentral()
-
-        maven {
-            url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
-            content {
-                includeGroup 'org.bukkit'
-                includeGroup 'org.spigotmc'
-            }
-        }
-
-        maven { url = 'https://jitpack.io' }
-        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-        maven { url = 'https://oss.sonatype.org/content/repositories/central' }
     }
 
     dependencies {
-        compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
         compileOnly 'org.projectlombok:lombok:1.18.24'
-
-        implementation 'com.github.SaiintBrisson.command-framework:bukkit:1.3.0'
-
         annotationProcessor 'org.projectlombok:lombok:1.18.24'
     }
 
