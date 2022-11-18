@@ -45,6 +45,7 @@ public class BanCommand extends PunishmentCommand {
             .author(author)
             .punishmentTime(null)
             .punishmentDuration(null)
+            .active(true)
             .build();
 
         final PunishmentUser punishmentUser = getOrCreateUser(player.getUniqueId());

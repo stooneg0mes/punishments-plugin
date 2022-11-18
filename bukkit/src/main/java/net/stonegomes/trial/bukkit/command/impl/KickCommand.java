@@ -7,7 +7,6 @@ import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import net.stonegomes.trial.bukkit.PunishmentsPlugin;
 import net.stonegomes.trial.bukkit.command.PunishmentCommand;
 import net.stonegomes.trial.bukkit.punishment.PunishmentImpl;
-import net.stonegomes.trial.bukkit.util.TimeConverter;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 import net.stonegomes.trial.core.user.PunishmentUser;
@@ -16,42 +15,41 @@ import org.bukkit.entity.Player;
 
 import java.time.Instant;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
-public class TemporaryBanCommand extends PunishmentCommand {
+public class KickCommand extends PunishmentCommand {
 
-    public TemporaryBanCommand(PunishmentsPlugin plugin) {
+    public KickCommand(PunishmentsPlugin plugin) {
         super(plugin);
     }
 
     @Command(
-        name = "tempban",
-        usage = "tempban <player> <duration> [reason]",
-        permission = "punishments.admin.tempban",
+        name = "kick",
+        usage = "kick <player> [reason]",
+        permission = "punishments.admin.kick",
         target = CommandTarget.ALL
     )
-    public void handleCommand(Context<CommandSender> context, Player player, String time, @Optional String optionalReason) {
+    public void handleCommand(Context<CommandSender> context, Player player, @Optional String optionalReason) {
         final Date date = Date.from(Instant.now());
         final String reason = optionalReason == null ? "No reason provided" : optionalReason;
         final String author = context.getSender().getName();
 
         final Punishment punishment = PunishmentImpl.builder()
             .uniqueId(UUID.randomUUID())
-            .type(PunishmentType.TEMPORARY_BAN)
+            .type(PunishmentType.KICK)
             .date(date)
             .reason(reason)
             .author(author)
-            .punishmentTime(System.currentTimeMillis())
-            .punishmentDuration(TimeConverter.convertToMillis(time))
-            .active(true)
+            .punishmentTime(null)
+            .punishmentDuration(null)
+            .active(false)
             .build();
 
         final PunishmentUser punishmentUser = getOrCreateUser(player.getUniqueId());
         punishmentUser.addPunishment(punishment);
 
-        context.sendMessage("§eYou temporary banned the player §f'" + player.getName() +"'§e successfully.");
-        player.kickPlayer("§cYou got temporary banned from the server.");
+        context.sendMessage("§eYou kicked the player §f'" + player.getName() +"'§e successfully.");
+        player.kickPlayer("§cYou got kicked from the server.");
     }
 
 }
