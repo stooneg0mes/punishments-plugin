@@ -1,10 +1,11 @@
 package net.stonegomes.trial.core;
 
 import java.util.Date;
+import java.util.UUID;
 
 public interface Punishment {
 
-    int getId();
+    UUID getUniqueId();
 
     PunishmentType getType();
 

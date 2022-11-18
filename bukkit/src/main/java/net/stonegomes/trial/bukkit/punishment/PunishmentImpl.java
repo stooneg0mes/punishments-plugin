@@ -7,13 +7,14 @@ import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 
 import java.util.Date;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Builder
 @Data
 public class PunishmentImpl implements Punishment {
 
-    private final int id;
+    private final UUID uniqueId;
     private final PunishmentType type;
     private final Date date;
     private final String reason, author;
