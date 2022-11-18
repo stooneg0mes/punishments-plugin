@@ -31,7 +31,7 @@ public class TemporaryBanCommand extends PunishmentCommand {
         permission = "punishments.admin.tempban",
         target = CommandTarget.ALL
     )
-    public void handleCommand(Context<CommandSender> context, Player player, String time, @Optional String optionalReason) {
+    public void handleCommand(Context<CommandSender> context, Player player, String duration, @Optional String optionalReason) {
         final Date date = Date.from(Instant.now());
         final String reason = optionalReason == null ? "No reason provided" : optionalReason;
         final String author = context.getSender().getName();
@@ -43,7 +43,7 @@ public class TemporaryBanCommand extends PunishmentCommand {
             .reason(reason)
             .author(author)
             .punishmentTime(System.currentTimeMillis())
-            .punishmentDuration(TimeConverter.convertToMillis(time))
+            .punishmentDuration(TimeConverter.convertToMillis(duration))
             .active(true)
             .build();
 
@@ -51,7 +51,7 @@ public class TemporaryBanCommand extends PunishmentCommand {
         punishmentUser.addPunishment(punishment);
 
         context.sendMessage("§eYou temporary banned the player §f'" + player.getName() +"'§e successfully.");
-        player.kickPlayer("§cYou got temporary banned from the server.");
+        player.kickPlayer("§cYou have been temporary banned from the server.");
     }
 
 }
