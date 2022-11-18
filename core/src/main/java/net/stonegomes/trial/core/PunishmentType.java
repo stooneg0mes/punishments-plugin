@@ -1,4 +1,4 @@
-package net.stonegomes.trial.core.punishment;
+package net.stonegomes.trial.core;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
