@@ -28,16 +28,23 @@ public class AsyncPlayerChatListener implements Listener {
 
         String[] muteMessage = new String[0];
         switch (activePunishment.getType()) {
-            case TEMPORARY_MUTE -> muteMessage = new String[]{
-                "",
-                "§c§lPUNISHMENTS",
-                "§cYou have been muted in the server chat.",
-                "",
-                "§cTime: §f" + TimeFormatter.formatTime(activePunishment.getPunishmentDuration()) + "§c.",
-                "§cReason: §f" + activePunishment.getReason(),
-                "§cAuthor: §f" + activePunishment.getAuthor(),
-                ""
-            };
+            case TEMPORARY_MUTE -> {
+                if (activePunishment.getTimeLeft() <= System.currentTimeMillis()) {
+                    activePunishment.setActive(false);
+                    return;
+                }
+
+                muteMessage = new String[]{
+                    "",
+                    "§c§lPUNISHMENTS",
+                    "§cYou have been muted in the server chat.",
+                    "",
+                    "§cTime: §f" + TimeFormatter.formatTime(activePunishment.getPunishmentDuration()) + "§c.",
+                    "§cReason: §f" + activePunishment.getReason(),
+                    "§cAuthor: §f" + activePunishment.getAuthor(),
+                    ""
+                };
+            }
             case MUTE -> muteMessage = new String[]{
                 "",
                 "§c§lPUNISHMENTS",

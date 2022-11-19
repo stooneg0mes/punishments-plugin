@@ -25,16 +25,23 @@ public class PlayerLoginListener implements Listener {
 
         String[] banMessage = new String[0];
         switch (activePunishment.getType()) {
-            case TEMPORARY_BAN -> banMessage = new String[]{
-                "",
-                "§c§lPUNISHMENTS",
-                "§c(You have been temporary banned from the server)",
-                "",
-                "§cAuthor: §f" + activePunishment.getAuthor(),
-                "§cReason: §f" + activePunishment.getReason(),
-                "§cTime: §f" + TimeFormatter.formatTime(activePunishment.getTimeLeft(), true),
-                ""
-            };
+            case TEMPORARY_BAN -> {
+                if (activePunishment.getTimeLeft() <= System.currentTimeMillis()) {
+                    activePunishment.setActive(false);
+                    return;
+                }
+
+                banMessage = new String[]{
+                    "",
+                    "§c§lPUNISHMENTS",
+                    "§c(You have been temporary banned from the server)",
+                    "",
+                    "§cAuthor: §f" + activePunishment.getAuthor(),
+                    "§cReason: §f" + activePunishment.getReason(),
+                    "§cTime: §f" + TimeFormatter.formatTime(activePunishment.getTimeLeft(), true),
+                    ""
+                };
+            }
             case BAN -> banMessage = new String[]{
                 "",
                 "§c§lPUNISHMENTS",
