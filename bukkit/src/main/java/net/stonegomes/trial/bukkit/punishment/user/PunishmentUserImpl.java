@@ -6,6 +6,9 @@ import lombok.RequiredArgsConstructor;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 import net.stonegomes.trial.core.user.PunishmentUser;
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,11 +48,27 @@ public class PunishmentUserImpl implements PunishmentUser {
     }
 
     @Override
-    public Punishment findActivePunishment(PunishmentType punishmentType) {
-        return punishments.stream()
-            .filter(punishment -> punishment.getType() == punishmentType && punishment.isActive())
-            .findFirst()
-            .orElse(null);
+    public Punishment findActivePunishment(PunishmentType... punishmentTypes) {
+        for (PunishmentType punishmentType : punishmentTypes) {
+            final Punishment findPunishment = punishments.stream()
+                .filter(punishment -> punishment.getType() == punishmentType && punishment.isActive())
+                .findFirst()
+                .orElse(null);
+            if (findPunishment != null) return findPunishment;
+        }
+
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        final Player player = Bukkit.getPlayer(uniqueId);
+        if (player == null) {
+            final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uniqueId);
+            return offlinePlayer.getName();
+        } else {
+            return player.getName();
+        }
     }
 
 }

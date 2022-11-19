@@ -1,11 +1,11 @@
-package net.stonegomes.trial.bukkit.command.impl;
+package net.stonegomes.trial.bukkit.command;
 
+import lombok.RequiredArgsConstructor;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.annotation.Optional;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
 import net.stonegomes.trial.bukkit.PunishmentsPlugin;
-import net.stonegomes.trial.bukkit.command.PunishmentCommand;
 import net.stonegomes.trial.bukkit.punishment.PunishmentImpl;
 import net.stonegomes.trial.bukkit.util.TimeConverter;
 import net.stonegomes.trial.core.Punishment;
@@ -19,11 +19,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-public class TemporaryBanCommand extends PunishmentCommand {
+@RequiredArgsConstructor
+public class TemporaryBanCommand {
 
-    public TemporaryBanCommand(PunishmentsPlugin plugin) {
-        super(plugin);
-    }
+    private final PunishmentsPlugin plugin;
 
     @Command(
         name = "tempban",
@@ -47,8 +46,23 @@ public class TemporaryBanCommand extends PunishmentCommand {
             .active(true)
             .build();
 
-        final PunishmentUser punishmentUser = getOrCreateUser(player.getUniqueId());
-        punishmentUser.addPunishment(punishment);
+        final PunishmentUser punishmentUser = plugin.getPunishmentUserCache().getUser(player.getUniqueId());
+        if (punishmentUser == null) {
+            final PunishmentUser newUser = plugin.getPunishmentUserFactory().createPunishmentUser(
+                player.getUniqueId(),
+                List.of(punishment)
+            );
+
+            plugin.getPunishmentUserCache().putUser(newUser.getUniqueId(), newUser);
+        } else {
+            final Punishment activePunishment = punishmentUser.findActivePunishment(PunishmentType.TEMPORARY_BAN, PunishmentType.BAN);
+            if (activePunishment != null) {
+                context.sendMessage("§cThis player already has an active ban punishment at the moment.");
+                return;
+            }
+
+            punishmentUser.addPunishment(punishment);
+        }
 
         context.sendMessage("§eYou temporary banned the player §f'" + player.getName() +"'§e successfully.");
         player.kickPlayer("§cYou have been temporary banned from the server.");

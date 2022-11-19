@@ -20,6 +20,8 @@ public interface PunishmentUser {
 
     Punishment findPunishment(UUID uuid);
 
-    Punishment findActivePunishment(PunishmentType punishmentType);
+    Punishment findActivePunishment(PunishmentType... punishmentType);
+
+    String getName();
 
 }
