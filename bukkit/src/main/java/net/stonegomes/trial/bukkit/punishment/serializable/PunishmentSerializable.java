@@ -30,6 +30,7 @@ public class PunishmentSerializable implements SimplixSerializable<Punishment> {
     @Override
     public Object serialize(@NonNull Punishment punishment) throws ClassCastException {
         final Map<String, Object> punishmentData = new HashMap<>();
+
         punishmentData.put("uuid", punishment.getUuid());
         punishmentData.put("type", punishment.getType());
         punishmentData.put("time", punishment.getPunishmentTime());

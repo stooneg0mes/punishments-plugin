@@ -19,6 +19,7 @@ public class PunishmentUserDaoImpl implements PunishmentUserDao {
     @Override
     public void replaceUser(PunishmentUser punishmentUser) {
         final FlatFileSection userSection = storage.getSection(punishmentUser.getUuid().toString());
+
         for (Punishment punishment : punishmentUser.getPunishments()) {
             final String punishmentId = punishment.getUuid().toString();
             userSection.setSerializable(punishmentId, punishment);
@@ -29,6 +30,7 @@ public class PunishmentUserDaoImpl implements PunishmentUserDao {
     public PunishmentUser findUser(UUID uuid) {
         final FlatFileSection userSection = storage.getSection(uuid.toString());
         final List<Punishment> punishments = new ArrayList<>();
+
         for (String key : userSection.keySet()) {
             final Punishment punishment = userSection.getSerializable(key, Punishment.class);
             punishments.add(punishment);
@@ -43,6 +45,7 @@ public class PunishmentUserDaoImpl implements PunishmentUserDao {
     @Override
     public Collection<PunishmentUser> findAll() {
         final Set<PunishmentUser> punishmentUsers = new HashSet<>();
+
         for (String key : storage.keySet()) {
             final PunishmentUser findUser = findUser(UUID.fromString(key));
             punishmentUsers.add(findUser);
