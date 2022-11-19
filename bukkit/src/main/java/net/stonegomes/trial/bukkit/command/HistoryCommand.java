@@ -1,6 +1,7 @@
 package net.stonegomes.trial.bukkit.command;
 
 import lombok.RequiredArgsConstructor;
+import me.saiintbrisson.minecraft.ViewFrame;
 import me.saiintbrisson.minecraft.command.annotation.Command;
 import me.saiintbrisson.minecraft.command.command.Context;
 import me.saiintbrisson.minecraft.command.target.CommandTarget;
@@ -15,7 +16,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class HistoryCommand {
 
-    private final PunishmentsPlugin plugin;
+    private final ViewFrame viewFrame;
 
     @Command(
         name = "history",
@@ -24,7 +25,7 @@ public class HistoryCommand {
         target = CommandTarget.PLAYER
     )
     public void handleCommand(Context<Player> context, PunishmentUser punishmentUser) {
-        plugin.getViewFrame().open(
+        viewFrame.open(
             HistoryPaginatedView.class,
             context.getSender(),
             Map.of("punishmentUser", punishmentUser)

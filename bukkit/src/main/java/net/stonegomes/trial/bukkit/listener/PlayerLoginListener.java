@@ -6,6 +6,7 @@ import net.stonegomes.trial.bukkit.util.TimeFormatter;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 import net.stonegomes.trial.core.user.PunishmentUser;
+import net.stonegomes.trial.core.user.PunishmentUserCache;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerLoginEvent;
@@ -13,11 +14,11 @@ import org.bukkit.event.player.PlayerLoginEvent;
 @RequiredArgsConstructor
 public class PlayerLoginListener implements Listener {
 
-    private final PunishmentsPlugin plugin;
+    private final PunishmentUserCache punishmentUserCache;
 
     @EventHandler
     public void handlePlayerLogin(PlayerLoginEvent event) {
-        final PunishmentUser punishmentUser = plugin.getPunishmentUserCache().getUser(event.getPlayer().getUniqueId());
+        final PunishmentUser punishmentUser = punishmentUserCache.getUser(event.getPlayer().getUniqueId());
         if (punishmentUser == null) return;
 
         final Punishment activePunishment = punishmentUser.findActivePunishment(PunishmentType.TEMPORARY_BAN, PunishmentType.BAN);

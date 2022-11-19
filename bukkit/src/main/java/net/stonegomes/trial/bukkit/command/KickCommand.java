@@ -10,18 +10,19 @@ import net.stonegomes.trial.bukkit.punishment.PunishmentImpl;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 import net.stonegomes.trial.core.user.PunishmentUser;
+import net.stonegomes.trial.core.user.PunishmentUserCache;
+import net.stonegomes.trial.core.user.PunishmentUserFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
 public class KickCommand {
 
-    private final PunishmentsPlugin plugin;
+    private final PunishmentUserFactory punishmentUserFactory;
+    private final PunishmentUserCache punishmentUserCache;
 
     @Command(
         name = "kick",
@@ -43,14 +44,14 @@ public class KickCommand {
             .active(false)
             .build();
 
-        final PunishmentUser punishmentUser = plugin.getPunishmentUserCache().getUser(player.getUniqueId());
+        final PunishmentUser punishmentUser = punishmentUserCache.getUser(player.getUniqueId());
         if (punishmentUser == null) {
-            final PunishmentUser newUser = plugin.getPunishmentUserFactory().createPunishmentUser(
+            final PunishmentUser newUser = punishmentUserFactory.createPunishmentUser(
                 player.getUniqueId(),
                 List.of(punishment)
             );
 
-            plugin.getPunishmentUserCache().putUser(newUser.getUniqueId(), newUser);
+            punishmentUserCache.putUser(newUser.getUniqueId(), newUser);
         } else {
             punishmentUser.addPunishment(punishment);
         }

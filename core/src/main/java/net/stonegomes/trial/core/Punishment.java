@@ -8,7 +8,7 @@ public interface Punishment {
      * Get the punishment uuid.
      * @return the uuid
      */
-    UUID getUuid();
+    UUID getUniqueId();
 
     /**
      * Get the punishment type.

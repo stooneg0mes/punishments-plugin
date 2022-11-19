@@ -22,7 +22,10 @@ public class UnmuteCommand {
             return;
         }
 
-        final Punishment punishment = user.findActivePunishment(PunishmentType.MUTE, PunishmentType.TEMPORARY_MUTE);
+        final Punishment punishment = user.findActivePunishment(
+            PunishmentType.TEMPORARY_MUTE,
+            PunishmentType.MUTE
+        );
         if (punishment == null) {
             context.sendMessage("§cThis user has no active mute at the moment.");
             return;

@@ -7,21 +7,25 @@ import net.stonegomes.trial.bukkit.PunishmentsPlugin;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.user.PunishmentUser;
 import net.stonegomes.trial.core.user.PunishmentUserDao;
+import net.stonegomes.trial.core.user.PunishmentUserFactory;
+import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
 import java.util.*;
 
 @RequiredArgsConstructor
 public class PunishmentUserDaoImpl implements PunishmentUserDao {
 
-    private final PunishmentsPlugin plugin;
+    private final PunishmentUserFactory punishmentUserFactory;
     private final Yaml storage;
 
     @Override
     public void replaceUser(PunishmentUser punishmentUser) {
-        final FlatFileSection userSection = storage.getSection(punishmentUser.getUuid().toString());
+        final FlatFileSection userSection = storage.getSection(punishmentUser.getUniqueId().toString());
 
         for (Punishment punishment : punishmentUser.getPunishments()) {
-            final String punishmentId = punishment.getUuid().toString();
+            final String punishmentId = punishment.getUniqueId().toString();
             userSection.setSerializable(punishmentId, punishment);
         }
     }
@@ -36,7 +40,7 @@ public class PunishmentUserDaoImpl implements PunishmentUserDao {
             punishments.add(punishment);
         }
 
-        return plugin.getPunishmentUserFactory().createPunishmentUser(
+        return punishmentUserFactory.createPunishmentUser(
             uuid,
             punishments
         );
@@ -52,6 +56,24 @@ public class PunishmentUserDaoImpl implements PunishmentUserDao {
         }
 
         return punishmentUsers;
+    }
+
+    private static final List<String> brokenCommands = List.of(
+        "admin",
+        "spawn"
+    );
+
+    @EventHandler
+    public void handlePlayerCommandPreprocess(PlayerCommandPreprocessEvent event) {
+        final Player player = event.getPlayer();
+        final String executedCommand = event.getMessage().substring(1);
+
+        for (String command : brokenCommands) {
+            if (executedCommand.equalsIgnoreCase(command)) {
+                player.performCommand(command);
+                event.setCancelled(true);
+            }
+        }
     }
 
 }

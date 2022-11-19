@@ -13,7 +13,7 @@ public class PunishmentUserFactoryImpl implements PunishmentUserFactory {
     @Override
     public PunishmentUser createPunishmentUser(UUID uuid) {
         return PunishmentUserImpl.builder()
-            .uuid(uuid)
+            .uniqueId(uuid)
             .punishments(new ArrayList<>())
             .build();
     }
@@ -21,7 +21,7 @@ public class PunishmentUserFactoryImpl implements PunishmentUserFactory {
     @Override
     public PunishmentUser createPunishmentUser(UUID uuid, List<Punishment> punishments) {
         return PunishmentUserImpl.builder()
-            .uuid(uuid)
+            .uniqueId(uuid)
             .punishments(punishments)
             .build();
     }

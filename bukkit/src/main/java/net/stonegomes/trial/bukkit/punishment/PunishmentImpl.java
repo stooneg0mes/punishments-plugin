@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 
-import java.util.Date;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -14,7 +13,7 @@ import java.util.UUID;
 @Data
 public class PunishmentImpl implements Punishment {
 
-    private final UUID uuid;
+    private final UUID uniqueId;
     private final PunishmentType type;
     private final long punishmentTime;
     private final String reason, author;

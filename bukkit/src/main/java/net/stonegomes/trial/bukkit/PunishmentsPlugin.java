@@ -43,11 +43,11 @@ public class PunishmentsPlugin extends JavaPlugin {
             .setReloadSettings(ReloadSettings.INTELLIGENT)
             .createConfig();
 
-        // Initializers
+        // Punishment
 
         punishmentUserFactory = new PunishmentUserFactoryImpl();
         punishmentUserCache = new PunishmentUserCacheImpl();
-        punishmentUserDao = new PunishmentUserDaoImpl(this, storage);
+        punishmentUserDao = new PunishmentUserDaoImpl(punishmentUserFactory, storage);
 
         // Views
 
@@ -59,12 +59,12 @@ public class PunishmentsPlugin extends JavaPlugin {
 
         final BukkitFrame bukkitFrame = new BukkitFrame(this);
         bukkitFrame.registerCommands(
-            new TemporaryMuteCommand(this),
-            new TemporaryBanCommand(this),
-            new HistoryCommand(this),
-            new KickCommand(this),
-            new MuteCommand(this),
-            new BanCommand(this),
+            new TemporaryMuteCommand(punishmentUserFactory, punishmentUserCache),
+            new TemporaryBanCommand(punishmentUserFactory, punishmentUserCache),
+            new KickCommand(punishmentUserFactory, punishmentUserCache),
+            new MuteCommand(punishmentUserFactory, punishmentUserCache),
+            new BanCommand(punishmentUserFactory, punishmentUserCache),
+            new HistoryCommand(viewFrame),
             new UnbanCommand(),
             new UnmuteCommand()
         );
@@ -72,8 +72,8 @@ public class PunishmentsPlugin extends JavaPlugin {
         // Listeners
 
         final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
-        pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
-        pluginManager.registerEvents(new PlayerLoginListener(this), this);
+        pluginManager.registerEvents(new AsyncPlayerChatListener(punishmentUserCache), this);
+        pluginManager.registerEvents(new PlayerLoginListener(punishmentUserCache), this);
     }
 
 }

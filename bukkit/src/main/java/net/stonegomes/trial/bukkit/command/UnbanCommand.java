@@ -22,7 +22,10 @@ public class UnbanCommand {
             return;
         }
 
-        final Punishment punishment = user.findActivePunishment(PunishmentType.BAN, PunishmentType.TEMPORARY_BAN);
+        final Punishment punishment = user.findActivePunishment(
+            PunishmentType.TEMPORARY_BAN,
+            PunishmentType.BAN
+        );
         if (punishment == null) {
             context.sendMessage("§cThis user has no active ban at the moment.");
             return;

@@ -17,7 +17,7 @@ public class PunishmentSerializable implements SimplixSerializable<Punishment> {
         final Map<String, Object> punishmentData = (Map<String, Object>) obj;
 
         return PunishmentImpl.builder()
-            .uuid((UUID) punishmentData.get("uuid"))
+            .uniqueId((UUID) punishmentData.get("uuid"))
             .type((PunishmentType) punishmentData.get("type"))
             .punishmentTime((Long) punishmentData.get("time"))
             .reason((String) punishmentData.get("reason"))
@@ -31,7 +31,7 @@ public class PunishmentSerializable implements SimplixSerializable<Punishment> {
     public Object serialize(@NonNull Punishment punishment) throws ClassCastException {
         final Map<String, Object> punishmentData = new HashMap<>();
 
-        punishmentData.put("uuid", punishment.getUuid());
+        punishmentData.put("uuid", punishment.getUniqueId());
         punishmentData.put("type", punishment.getType());
         punishmentData.put("time", punishment.getPunishmentTime());
         punishmentData.put("reason", punishment.getReason());

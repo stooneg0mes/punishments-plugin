@@ -11,6 +11,8 @@ import net.stonegomes.trial.bukkit.util.TimeConverter;
 import net.stonegomes.trial.core.Punishment;
 import net.stonegomes.trial.core.PunishmentType;
 import net.stonegomes.trial.core.user.PunishmentUser;
+import net.stonegomes.trial.core.user.PunishmentUserCache;
+import net.stonegomes.trial.core.user.PunishmentUserFactory;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -22,7 +24,8 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TemporaryBanCommand {
 
-    private final PunishmentsPlugin plugin;
+    private final PunishmentUserFactory punishmentUserFactory;
+    private final PunishmentUserCache punishmentUserCache;
 
     @Command(
         name = "tempban",
@@ -44,16 +47,19 @@ public class TemporaryBanCommand {
             .active(true)
             .build();
 
-        final PunishmentUser punishmentUser = plugin.getPunishmentUserCache().getUser(player.getUniqueId());
+        final PunishmentUser punishmentUser = punishmentUserCache.getUser(player.getUniqueId());
         if (punishmentUser == null) {
-            final PunishmentUser newUser = plugin.getPunishmentUserFactory().createPunishmentUser(
+            final PunishmentUser newUser = punishmentUserFactory.createPunishmentUser(
                 player.getUniqueId(),
                 List.of(punishment)
             );
 
-            plugin.getPunishmentUserCache().putUser(newUser.getUniqueId(), newUser);
+            punishmentUserCache.putUser(newUser.getUniqueId(), newUser);
         } else {
-            final Punishment activePunishment = punishmentUser.findActivePunishment(PunishmentType.TEMPORARY_BAN, PunishmentType.BAN);
+            final Punishment activePunishment = punishmentUser.findActivePunishment(
+                PunishmentType.TEMPORARY_BAN,
+                PunishmentType.BAN
+            );
             if (activePunishment != null) {
                 context.sendMessage("§cThis player already has an active ban punishment at the moment.");
                 return;
