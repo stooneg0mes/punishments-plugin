@@ -30,17 +30,15 @@ public class MuteCommand {
         target = CommandTarget.ALL
     )
     public void handleCommand(Context<CommandSender> context, Player player, @Optional String optionalReason) {
-        final Date date = Date.from(Instant.now());
         final String reason = optionalReason == null ? "No reason provided" : optionalReason;
         final String author = context.getSender().getName();
 
         final Punishment punishment = PunishmentImpl.builder()
             .uniqueId(UUID.randomUUID())
             .type(PunishmentType.MUTE)
-            .date(date)
             .reason(reason)
             .author(author)
-            .punishmentTime(null)
+            .punishmentTime(System.currentTimeMillis())
             .punishmentDuration(null)
             .active(true)
             .build();

@@ -16,9 +16,9 @@ public class PunishmentImpl implements Punishment {
 
     private final UUID uniqueId;
     private final PunishmentType type;
-    private final Date date;
+    private final long punishmentTime;
     private final String reason, author;
-    private final Long punishmentTime, punishmentDuration;
+    private final Long punishmentDuration;
 
     private boolean active;
 

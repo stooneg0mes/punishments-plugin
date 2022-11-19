@@ -17,6 +17,11 @@ public class UnmuteCommand {
         target = CommandTarget.ALL
     )
     public void handleCommand(Context<CommandSender> context, PunishmentUser user) {
+        if (user == null) {
+            context.sendMessage("§cThis user has not suffered any punishments on the server.");
+            return;
+        }
+
         final Punishment punishment = user.findActivePunishment(PunishmentType.MUTE, PunishmentType.TEMPORARY_MUTE);
         if (punishment == null) {
             context.sendMessage("§cThis user has no active mute at the moment.");

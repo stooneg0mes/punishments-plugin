@@ -32,14 +32,12 @@ public class TemporaryMuteCommand {
         target = CommandTarget.ALL
     )
     public void handleCommand(Context<CommandSender> context, Player player, String duration, @Optional String optionalReason) {
-        final Date date = Date.from(Instant.now());
         final String reason = optionalReason == null ? "No reason provided" : optionalReason;
         final String author = context.getSender().getName();
 
         final Punishment punishment = PunishmentImpl.builder()
             .uniqueId(UUID.randomUUID())
             .type(PunishmentType.TEMPORARY_MUTE)
-            .date(date)
             .reason(reason)
             .author(author)
             .punishmentTime(System.currentTimeMillis())

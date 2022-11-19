@@ -9,7 +9,7 @@ public interface Punishment {
 
     PunishmentType getType();
 
-    Date getDate();
+    long getPunishmentTime();
 
     String getReason();
 
@@ -18,12 +18,6 @@ public interface Punishment {
     boolean isActive();
 
     void setActive(boolean active);
-
-    Long getPunishmentTime();
-
-    default boolean hasPunishmentTime() {
-        return getPunishmentTime() != null;
-    }
 
     Long getPunishmentDuration();
 
