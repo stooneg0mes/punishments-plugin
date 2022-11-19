@@ -42,7 +42,7 @@ public class PunishmentUserImpl implements PunishmentUser {
     @Override
     public Punishment findPunishment(UUID uuid) {
         return punishments.stream()
-            .filter(punishment -> punishment.getUniqueId().equals(uuid))
+            .filter(punishment -> punishment.getUuid().equals(uuid))
             .findFirst()
             .orElse(null);
     }

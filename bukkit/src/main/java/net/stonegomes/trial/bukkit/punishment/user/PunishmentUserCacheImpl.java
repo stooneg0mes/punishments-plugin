@@ -26,4 +26,9 @@ public class PunishmentUserCacheImpl implements PunishmentUserCache {
         USER_CACHE.put(uuid, punishmentUser);
     }
 
+    @Override
+    public boolean containsUser(UUID uuid) {
+        return USER_CACHE.containsKey(uuid);
+    }
+
 }
