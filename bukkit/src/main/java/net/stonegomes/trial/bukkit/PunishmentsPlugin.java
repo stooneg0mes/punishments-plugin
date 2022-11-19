@@ -3,12 +3,16 @@ package net.stonegomes.trial.bukkit;
 import lombok.Getter;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
 import net.stonegomes.trial.bukkit.command.*;
+import net.stonegomes.trial.bukkit.listener.AsyncPlayerChatListener;
+import net.stonegomes.trial.bukkit.listener.PlayerLoginListener;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserCacheImpl;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserDaoImpl;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserFactoryImpl;
 import net.stonegomes.trial.core.user.PunishmentUserCache;
 import net.stonegomes.trial.core.user.PunishmentUserDao;
 import net.stonegomes.trial.core.user.PunishmentUserFactory;
+import org.bukkit.Bukkit;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 @Getter
@@ -38,6 +42,12 @@ public class PunishmentsPlugin extends JavaPlugin {
             new UnbanCommand(),
             new UnmuteCommand()
         );
+
+        // Listeners
+
+        final PluginManager pluginManager = Bukkit.getServer().getPluginManager();
+        pluginManager.registerEvents(new AsyncPlayerChatListener(this), this);
+        pluginManager.registerEvents(new PlayerLoginListener(this), this);
     }
 
 }
