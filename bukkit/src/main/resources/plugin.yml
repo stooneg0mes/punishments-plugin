@@ -1,0 +1,5 @@
+main: net.stonegomes.trial.bukkit.PunishmentsPlugin
+name: Punishments
+version: 1.0
+author: stooneg0mes
+api-version: 1.13
