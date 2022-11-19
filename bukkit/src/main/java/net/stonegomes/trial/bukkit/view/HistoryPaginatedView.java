@@ -56,18 +56,14 @@ public class HistoryPaginatedView extends PaginatedView<Punishment> {
             context.slot(4, 9).withItem(new ItemStackBuilder(Material.ARROW)
                 .name("§aNext Page")
                 .lore("§7Click here to go to the next page.")
-            ).onClick(handler -> {
-                context.paginated().switchToNextPage();
-            });
+            ).onClick(handler -> context.paginated().switchToNextPage());
         }
 
         if (context.paginated().hasPreviousPage()) {
             context.slot(4, 0).withItem(new ItemStackBuilder(Material.ARROW)
                 .name("§aPrevious Page")
                 .lore("§7Click here to go to the previous page.")
-            ).onClick(handler -> {
-                context.paginated().switchToPreviousPage();
-            });
+            ).onClick(handler -> context.paginated().switchToPreviousPage());
         }
     }
 

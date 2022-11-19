@@ -2,12 +2,14 @@ package net.stonegomes.trial.bukkit;
 
 import lombok.Getter;
 import me.saiintbrisson.bukkit.command.BukkitFrame;
+import me.saiintbrisson.minecraft.ViewFrame;
 import net.stonegomes.trial.bukkit.command.*;
 import net.stonegomes.trial.bukkit.listener.AsyncPlayerChatListener;
 import net.stonegomes.trial.bukkit.listener.PlayerLoginListener;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserCacheImpl;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserDaoImpl;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserFactoryImpl;
+import net.stonegomes.trial.bukkit.view.HistoryPaginatedView;
 import net.stonegomes.trial.core.user.PunishmentUserCache;
 import net.stonegomes.trial.core.user.PunishmentUserDao;
 import net.stonegomes.trial.core.user.PunishmentUserFactory;
@@ -22,6 +24,8 @@ public class PunishmentsPlugin extends JavaPlugin {
     private PunishmentUserCache punishmentUserCache;
     private PunishmentUserDao punishmentUserDao;
 
+    private ViewFrame viewFrame;
+
     @Override
     public void onEnable() {
         // Initializers
@@ -30,15 +34,22 @@ public class PunishmentsPlugin extends JavaPlugin {
         punishmentUserCache = new PunishmentUserCacheImpl();
         punishmentUserDao = new PunishmentUserDaoImpl();
 
+        // Views
+
+        viewFrame = ViewFrame.of(this)
+            .with(new HistoryPaginatedView())
+            .register();
+
         // Commands
 
         final BukkitFrame bukkitFrame = new BukkitFrame(this);
         bukkitFrame.registerCommands(
             new TemporaryMuteCommand(this),
             new TemporaryBanCommand(this),
-            new BanCommand(this),
+            new HistoryCommand(this),
             new KickCommand(this),
             new MuteCommand(this),
+            new BanCommand(this),
             new UnbanCommand(),
             new UnmuteCommand()
         );
