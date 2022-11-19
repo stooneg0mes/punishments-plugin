@@ -18,7 +18,7 @@ import java.util.UUID;
 @Getter
 public class PunishmentUserImpl implements PunishmentUser {
 
-    private final UUID uniqueId;
+    private final UUID uuid;
     private final List<Punishment> punishments;
 
     @Override
@@ -62,9 +62,9 @@ public class PunishmentUserImpl implements PunishmentUser {
 
     @Override
     public String getName() {
-        final Player player = Bukkit.getPlayer(uniqueId);
+        final Player player = Bukkit.getPlayer(uuid);
         if (player == null) {
-            final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uniqueId);
+            final OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(uuid);
             return offlinePlayer.getName();
         } else {
             return player.getName();

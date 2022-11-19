@@ -12,7 +12,7 @@ public interface PunishmentUser {
      * Get the user uniqueId on the server.
      * @return the user uniqueId
      */
-    UUID getUniqueId();
+    UUID getUuid();
 
     /**
      * Get all punishments the user had.

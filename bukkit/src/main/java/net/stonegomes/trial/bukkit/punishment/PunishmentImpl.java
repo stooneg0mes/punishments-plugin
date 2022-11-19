@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 public class PunishmentImpl implements Punishment {
 
-    private final UUID uniqueId;
+    private final UUID uuid;
     private final PunishmentType type;
     private final long punishmentTime;
     private final String reason, author;

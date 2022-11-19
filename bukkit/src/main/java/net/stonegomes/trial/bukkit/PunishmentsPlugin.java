@@ -47,7 +47,7 @@ public class PunishmentsPlugin extends JavaPlugin {
 
         punishmentUserFactory = new PunishmentUserFactoryImpl();
         punishmentUserCache = new PunishmentUserCacheImpl();
-        punishmentUserDao = new PunishmentUserDaoImpl(storage);
+        punishmentUserDao = new PunishmentUserDaoImpl(this, storage);
 
         // Views
 
