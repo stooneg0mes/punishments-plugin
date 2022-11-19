@@ -1,6 +1,8 @@
 package net.stonegomes.trial.bukkit;
 
 import lombok.Getter;
+import me.saiintbrisson.bukkit.command.BukkitFrame;
+import net.stonegomes.trial.bukkit.command.*;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserCacheImpl;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserDaoImpl;
 import net.stonegomes.trial.bukkit.punishment.user.PunishmentUserFactoryImpl;
@@ -18,9 +20,24 @@ public class PunishmentsPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // Initializers
+
         punishmentUserFactory = new PunishmentUserFactoryImpl();
         punishmentUserCache = new PunishmentUserCacheImpl();
         punishmentUserDao = new PunishmentUserDaoImpl();
+
+        // Commands
+
+        final BukkitFrame bukkitFrame = new BukkitFrame(this);
+        bukkitFrame.registerCommands(
+            new TemporaryMuteCommand(this),
+            new TemporaryBanCommand(this),
+            new BanCommand(this),
+            new KickCommand(this),
+            new MuteCommand(this),
+            new UnbanCommand(),
+            new UnmuteCommand()
+        );
     }
 
 }
